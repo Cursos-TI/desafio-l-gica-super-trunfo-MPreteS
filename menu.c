@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 typedef struct 
 {
@@ -21,14 +22,14 @@ void calcularDensidade(Carta *carta) {
     }
 }
 
-void exibirMenu() {
+void exibirMenuAtributos() {
     printf("\nAtributos disponíveis:\n");
     printf("1. População\n");
     printf("2. Área\n");
     printf("3. PIB\n");
     printf("4. Pontos turísticos\n");
     printf("5. Densidade demográfica\n");
-    printf("0. Sair\n");
+    printf("0. Voltar\n");
 }
 
 Carta* compararCartas(Carta *carta1, Carta *carta2, int atributo) {
@@ -94,6 +95,50 @@ void listarCartas(Carta cartas[], int num_cartas) {
     }
 }
 
+int jogarPartida(Carta cartas[], int num_cartas) {
+    int escolha;
+    Carta *cartaJogador, *cartaPC;
+
+    listarCartas(cartas, num_cartas);
+    printf("Escolha sua carta (1-%d, ou 0 para sair): ", num_cartas);
+    scanf("%d", &escolha);
+    
+    if (escolha == 0) return 0;
+    if (escolha < 1 || escolha > num_cartas) {
+        printf("Opção inválida!\n");
+        return 1;
+    }
+    
+    cartaJogador = &cartas[escolha-1];
+    
+    do {
+        cartaPC = &cartas[rand() % num_cartas];
+    } while (cartaPC == cartaJogador);
+    
+    printf("\nSua carta: %s\n", cartaJogador->nome);
+    printf("Carta do computador: %s\n", cartaPC->nome);
+
+    exibirMenuAtributos();
+    printf("Escolha o atributo para comparar: ");
+    scanf("%d", &escolha);
+    if (escolha == 0) return 1;
+
+    Carta *vencedor = compararCartas(cartaJogador, cartaPC, escolha);
+
+    if (vencedor) {
+        printf("\n%s venceu! ", vencedor->nome);
+        if (vencedor == cartaPC) {
+            printf("O computador ganhou esta rodada!\n");
+        } else {
+            printf("Você ganhou esta rodada!\n");
+        }
+    } else {
+        printf("Empate nesta rodada!\n");
+    }
+    
+    return 1;
+}
+
 int main() {
     srand(time(0));
     
@@ -109,43 +154,21 @@ int main() {
         calcularDensidade(&cartas[i]);
     }
     
-    int escolha;
-    Carta *cartaJogador, *cartaPC;
-
+    char jogar_novamente;
+    
     printf("Bem-vindo ao Jogo de Cartas de Estados!\n");
 
-    listarCartas(cartas, num_cartas);
-    printf("Escolha sua carta (1-%d): ", num_cartas);
-    scanf("%d", &escolha);
-    cartaJogador = &cartas[escolha-1];
-    
     do {
-        do {
-            cartaPC = &cartas[rand() % num_cartas];
-        } while (cartaPC == cartaJogador);
+        int resultado = jogarPartida(cartas, num_cartas);
         
-        printf("\nSua carta: %s\n", cartaJogador->nome);
-        printf("Carta do computador: %s\n", cartaPC->nome);
-
-        exibirMenu();
-        printf("Escolha o atributo para comparar (ou 0 para sair): ");
-        scanf("%d", &escolha);
-        if (escolha == 0) break;
-
-        Carta *vencedor = compararCartas(cartaJogador, cartaPC, escolha);
-
-        if (vencedor) {
-            printf("\n%s venceu! ", vencedor->nome);
-            if (vencedor == cartaPC) {
-                printf("O computador ganhou esta rodada!\n");
-            } else {
-                printf("Você ganhou esta rodada!\n");
-            }
-        } else {
-            printf("Empate nesta rodada!\n");
-        }
-    } while (1);
+        if (resultado == 0) break;
+        
+        printf("\nDeseja jogar novamente? (S/N): ");
+        scanf(" %c", &jogar_novamente);
+        jogar_novamente = toupper(jogar_novamente);
+        
+    } while (jogar_novamente == 'S');
     
-    printf("\nFim de jogo!\n");
+    printf("\nFim de jogo! Obrigado por jogar!\n");
     return 0;
 }
