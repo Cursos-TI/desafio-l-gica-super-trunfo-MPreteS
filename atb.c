@@ -108,8 +108,67 @@ int main (){
         for (int = 0; i < 3; i++) {
             calcularDensidade(&baralho[i]);
         }
-        int escolha;
+        int opcao;
         
-        do {}
+        do {
+            printf("\nSuper Trunfo\n");
+            printf("1. Jogar\n");
+            printf("2. Ver Cartas\n");
+            printf("0. Sair\n");
+            printf("Escolha uma opção: ");
+            scanf("%d", &opcao);
+
+            if (escolha ==1) {
+                listarCartas(cartas, num_cartas);
+                printf("\nEscolha sua carta(1-%d): ", num_cartas);
+                int escolha_jogador;
+                scanf("%d", &escolha_jogador);
+
+                if (escolha_jogador < 1 || escolha_jogador > num_cartas) {
+                    printf("Escolha Inválida!\n");
+                    continue;
+                }
+                
+                Carta carta_jogador = num_cartas[escolha_jogador-1];
+                
+                int indice_comp;
+                do {
+                    indice_comp = rand() % num_cartas;
+                } while (indice_comp == escolha_jogador-1);
+
+                Carta carta_PC = num_cartas[escolha_jogador-1];
+                
+                printf("\nVocê escolheu: %s\n", carta_jogador.nome);
+                printf("O Computador está com: %s\n", carta_PC.nome);
+
+                int atributo1, atributo2;
+
+                printf("\nEscolha o primeiro atributo:\n");
+                exibirMenuAtributos(0);
+                printf("Digite o número do atributo: ");
+                scanf("%d", &atributo1);
+
+                if (atributo1 < 1 || atributo1 > 5) {
+                    printf("Atributo Inválido!\n");
+                    continue;
+                }
+                
+                printf("\nEscolha um segundo atributo:\n");
+                exibirMenuAtributos(atributo1);
+                printf("Digite o número do atributo: ");
+                scanf("%d", &atributo2);
+
+                 if (atributo2 < 1 || atributo2 > 5 || atributo2 == atributo1) {
+                    printf("Atributo Inválido!\n");
+                    continue;
+
+            }
+
+            int resultado1 = compararAtributo(carta_jogador, carta_PC, atributo1);
+            int resultado2 = compararAtributo(carta_jogador, carta_PC, atributo2);
+            
+            float soma_jogador = 0, soma_pc = 0;
+            
+        }
     }
 }
