@@ -169,6 +169,110 @@ int main (){
             
             float soma_jogador = 0, soma_pc = 0;
             
-        }
+            switch(atributo) {
+                case 1:
+                soma_jogador += carta_jogador.populacao;
+                soma_pc += carta_PC.populacao;
+                break;
+                
+                case 2:
+                soma_jogador += carta_jogador.area;
+                soma_pc += carta_PC.area;
+                break;
+
+                case 3:
+                soma_jogador += carta_jogador.pib;
+                soma_pc += carta_PC.pib;
+                break;
+
+                case 4:
+                soma_jogador += carta_jogador.pontos_turisticos;
+                soma_pc += carta_PC.pontos_turisticos;
+                break;
+
+                case 5:
+                soma_jogador += carta_jogador.densidade_demografica;
+                soma_pc += carta_PC.densidade_demografica;
+                break;
+            }
+
+            switch(atributo2) {
+                case 1:
+                soma_jogador += carta_jogador.populacao;
+                soma_pc += carta_PC.populacao;
+                break;
+
+                case 2:
+                soma_jogador += carta_jogador.area;
+                soma_pc += carta_PC.area;
+                break;
+
+                case 3:
+                soma_jogador += carta_jogador.pib;
+                soma_pc += carta_PC.pib;
+                break;
+
+                case 4:
+                soma_jogador += carta_jogador.pontos_turisticos;
+                soma_pc += carta_PC.pontos_turisticos;
+                break;
+
+                case 5:
+                soma_jogador += carta_jogador.densidade_demografica;
+                soma_pc += carta_PC.densidade_demografica;
+                break;
+            }
+
+            printf("\nResultado\n");
+            printf("Jogador: %s\n", carta_jogador.nome);
+            printf("Computador: %s\n", carta_PC.nome);
+
+            void exibirComparacaoAtributo(int atributo, Carta c1, Carta c2) {
+                char *nome;
+                float v1, v2;
+
+                switch(atributo) {
+                    case 1: nome = "População"; v1 = c1.populacao; v2 = c2.populacao; break;
+                    case 2: nome = "Área"; v1 = c1.area; v2 = c2.area; break;
+                    case 3: nome = "PIB"; v1 = c1.pib; v2 = c2.pib; break;
+                    case 4: nome = "Pontos Turisticos"; v1 = c1.pontos_turisticos; v2 = c2.pontos_turisticos; break;
+                    case 5: nome = "Densidade demográfica"; v1 = c1.densidade_demografica; v2 = c2.densidade_demografica; break;
+                }
+
+                printf("%s: Jogador (%.2f) VS Computador (%.2f)\n", nome, v1, v2);
+
+                printf("\nPrimeiro Atributo:\n");
+                exibirComparacaoAtributo(atributo1, carta_jogador, carta_PC);
+                printf("Vencedor: %s\n",
+                resultado1 == 1 ? "Jogador" : (resultado1 == -1 ? "Computador" : "Empate")
+                );
+
+                printf("\nSegundo Atributo:\n");
+                exibirComparacaoAtributo(atributo2, carta_jogador, carta_PC);
+                printf("Vencedor: %s\n",
+                resultado2 == 1 ? "Jogador" : (resultado2 == -1 ? "Computador" : "Empate"));
+
+                printf("\nSoma dos Atributos\n");
+                printf("Jogaodor: %2.f\n", soma_jogador);
+                printf("Computador: %2.f\n", soma_pc);
+
+                if (soma_jogador > soma_pc) {
+                    printf("\nVencedor Final: Jogador (%s)!\n", carta_jogador.nome);
+                } else if (soma_pc > soma_jogador) {
+                    printf("\nVencedor Final: Computador (%s)!\n", carta_PC.nome);
+                } else {
+                    printf("\nEmpate\n");
+                }
+            } else if (opcao == 2) {
+                printf("\nCartas Disponíveis\n");
+                for (int i = 0; i < num_cartas; i++) {
+                    exibirCarta(num_cartas[i]);
+                }
+            }
+        } while (opcao != 0);
+
+        printf("Obrigado!\n");
+
+        return 0;
     }
 }
